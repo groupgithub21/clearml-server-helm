@@ -1,10 +1,10 @@
 agent:
   numberOfClearmlAgents: 1
-  nvidiaGpusPerAgent: 0
-  defaultBaseDocker: "ecoron/python36-sklearn"
-  clearmlApiHost: "http://54.251.64.38:30008"
-  clearmlWebHost: "http://54.251.64.38:30080"
-  clearmlFilesHost: "http://54.251.64.38:30081"
+  nvidiaGpusPerAgent: 1
+  defaultBaseDocker: "nvidia/cuda:10.1-cudnn7-runtime"
+  clearmlApiHost: "http://192.168.180.238:30008"
+  clearmlWebHost: "http://192.168.180.238:30080"
+  clearmlFilesHost: "http://192.168.180.238:30081"
   clearmlGitUser: groupgithub21
   clearmlGitPassword: dabudabu21
   awsAccessKeyId: null
