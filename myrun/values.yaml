@@ -1,0 +1,14 @@
+agent:
+  numberOfClearmlAgents: 1
+  nvidiaGpusPerAgent: 0
+  defaultBaseDocker: "ecoron/python36-sklearn"
+  clearmlApiHost: "http://54.251.64.38:30008"
+  clearmlWebHost: "http://54.251.64.38:30080"
+  clearmlFilesHost: "http://54.251.64.38:30081"
+  clearmlGitUser: groupgithub21
+  clearmlGitPassword: dabudabu21
+  awsAccessKeyId: null
+  awsSecretAccessKey: null
+  awsDefaultRegion: null
+  azureStorageAccount: null
+  azureStorageKey: null
