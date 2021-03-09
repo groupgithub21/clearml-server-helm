@@ -1,0 +1,1058 @@
+---
+# Source: clearml-server-chart/templates/clearml-agent-deployment.yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: clearml-agent-conf
+data:
+  clearml.conf: c2RrIHsKfQ==
+---
+# Source: clearml-server-chart/templates/persistent-storage.yaml
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: elasticsearch-pv
+  labels:
+    type: local
+spec:
+  storageClassName: "elasticsearch"
+  capacity:
+    storage: 50Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/opt/clearml/data/elastic_7"
+---
+# Source: clearml-server-chart/templates/persistent-storage.yaml
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: mongo-pv0
+  labels:
+    type: local
+spec:
+  storageClassName: "mongo0"
+  capacity:
+    storage: 50Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/opt/clearml/data/mongo/db"
+---
+# Source: clearml-server-chart/templates/persistent-storage.yaml
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: mongo-pv1
+  labels:
+    type: local
+spec:
+  storageClassName: "mongo1"
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/opt/clearml/data/mongo/configdb"
+---
+# Source: clearml-server-chart/templates/persistent-storage.yaml
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: redis-pv
+  labels:
+    type: local
+spec:
+  storageClassName: "redis"
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/opt/clearml/data/redis"
+---
+# Source: clearml-server-chart/templates/persistent-storage.yaml
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: fileserver-pv0
+  labels:
+    type: local
+spec:
+  storageClassName: "fileserver0"
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/opt/clearml/logs"
+---
+# Source: clearml-server-chart/templates/persistent-storage.yaml
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: fileserver-pv1
+  labels:
+    type: local
+spec:
+  storageClassName: "fileserver1"
+  capacity:
+    storage: 50Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/opt/clearml/data/fileserver"
+---
+# Source: clearml-server-chart/templates/persistent-storage.yaml
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: apiserver-pv0
+  labels:
+    type: local
+spec:
+  storageClassName: "apiserver0"
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/opt/clearml/logs"
+---
+# Source: clearml-server-chart/templates/persistent-storage.yaml
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: apiserver-pv1
+  labels:
+    type: local
+spec:
+  storageClassName: "apiserver1"
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/opt/clearml/config"
+---
+# Source: clearml-server-chart/templates/persistent-storage.yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: elasticsearch-pv-claim
+spec:
+  resources:
+    requests:
+      storage: 50Gi
+  storageClassName: "elasticsearch"
+  accessModes:
+    - ReadWriteOnce
+---
+# Source: clearml-server-chart/templates/persistent-storage.yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mongo-pv-claim0
+spec:
+  resources:
+    requests:
+      storage: 50Gi
+  storageClassName: "mongo0"
+  accessModes:
+    - ReadWriteOnce
+---
+# Source: clearml-server-chart/templates/persistent-storage.yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mongo-pv-claim1
+spec:
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: "mongo1"
+  accessModes:
+    - ReadWriteOnce
+---
+# Source: clearml-server-chart/templates/persistent-storage.yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: redis-pv-claim
+spec:
+  resources:
+    requests:
+      storage: 5Gi
+  storageClassName: "redis"
+  accessModes:
+    - ReadWriteOnce
+---
+# Source: clearml-server-chart/templates/persistent-storage.yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: fileserver-pv-claim0
+spec:
+  resources:
+    requests:
+      storage: 5Gi
+  storageClassName: "fileserver0"
+  accessModes:
+    - ReadWriteOnce
+---
+# Source: clearml-server-chart/templates/persistent-storage.yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: fileserver-pv-claim1
+spec:
+  resources:
+    requests:
+      storage: 50Gi
+  storageClassName: "fileserver1"
+  accessModes:
+    - ReadWriteOnce
+---
+# Source: clearml-server-chart/templates/persistent-storage.yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: apiserver-pv-claim0
+spec:
+  resources:
+    requests:
+      storage: 10Gi
+  storageClassName: "apiserver0"
+  accessModes:
+    - ReadWriteOnce
+---
+# Source: clearml-server-chart/templates/persistent-storage.yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: apiserver-pv-claim1
+spec:
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: "apiserver1"
+  accessModes:
+    - ReadWriteOnce
+---
+# Source: clearml-server-chart/templates/apiserver-deployment.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: apiserver-service
+  labels:
+    app.kubernetes.io/name: apiserver
+    app.kubernetes.io/instance: RELEASE-NAME
+    app.kubernetes.io/part-of: clearml-server
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/version: 0.17.0-63
+    helm.sh/chart: clearml-server-chart-0.17.0_1
+  namespace: clearml
+spec:
+  selector:
+    app.kubernetes.io/name: apiserver
+    app.kubernetes.io/instance: RELEASE-NAME
+    app.kubernetes.io/part-of: clearml-server
+    app.kubernetes.io/managed-by: Helm
+  type: NodePort
+  ports:
+  - protocol: TCP
+    port: 8008
+    targetPort: 8008
+    nodePort: 30008
+---
+# Source: clearml-server-chart/templates/elasticsearch-deployment.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: elasticsearch-service
+  labels:
+    app.kubernetes.io/name: elasticsearch
+    app.kubernetes.io/instance: RELEASE-NAME
+    app.kubernetes.io/part-of: clearml-server
+    app.kubernetes.io/managed-by: Helm
+    helm.sh/chart: clearml-server-chart-0.17.0_1
+  namespace: clearml
+spec:
+  selector:
+    app.kubernetes.io/name: elasticsearch
+    app.kubernetes.io/instance: RELEASE-NAME
+    app.kubernetes.io/part-of: clearml-server
+    app.kubernetes.io/managed-by: Helm
+  type: ClusterIP
+  ports:
+  - protocol: TCP
+    port: 9200
+    targetPort: 9200
+---
+# Source: clearml-server-chart/templates/fileserver-deployment.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: fileserver-service
+  labels:
+    app.kubernetes.io/name: fileserver
+    app.kubernetes.io/instance: RELEASE-NAME
+    app.kubernetes.io/part-of: clearml-server
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/version: 0.17.0-63
+    helm.sh/chart: clearml-server-chart-0.17.0_1
+  namespace: clearml
+spec:
+  selector:
+    app.kubernetes.io/name: fileserver
+    app.kubernetes.io/instance: RELEASE-NAME
+    app.kubernetes.io/part-of: clearml-server
+    app.kubernetes.io/managed-by: Helm
+  type: NodePort
+  ports:
+  - protocol: TCP
+    port: 8081
+    targetPort: 8081
+    nodePort: 30081
+---
+# Source: clearml-server-chart/templates/mongo-deployment.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongo-service
+  labels:
+    app.kubernetes.io/name: mongo
+    app.kubernetes.io/instance: RELEASE-NAME
+    app.kubernetes.io/part-of: clearml-server
+    app.kubernetes.io/managed-by: Helm
+    helm.sh/chart: clearml-server-chart-0.17.0_1
+  namespace: clearml
+spec:
+  selector:
+    app.kubernetes.io/name: mongo
+    app.kubernetes.io/instance: RELEASE-NAME
+    app.kubernetes.io/part-of: clearml-server
+    app.kubernetes.io/managed-by: Helm
+  type: ClusterIP
+  ports:
+  - protocol: TCP
+    port: 27017
+    targetPort: 27017
+---
+# Source: clearml-server-chart/templates/redis-deployment.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis
+  labels:
+    app.kubernetes.io/name: redis
+    app.kubernetes.io/instance: RELEASE-NAME
+    app.kubernetes.io/part-of: clearml-server
+    app.kubernetes.io/managed-by: Helm
+    helm.sh/chart: clearml-server-chart-0.17.0_1
+  namespace: clearml
+spec:
+  selector:
+    app.kubernetes.io/name: redis
+    app.kubernetes.io/instance: RELEASE-NAME
+    app.kubernetes.io/part-of: clearml-server
+    app.kubernetes.io/managed-by: Helm
+  type: ClusterIP
+  ports:
+  - protocol: TCP
+    port: 6379
+    targetPort: 6379
+---
+# Source: clearml-server-chart/templates/webserver-deployment.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: webserver-service
+  labels:
+    app.kubernetes.io/name: webserver
+    app.kubernetes.io/instance: RELEASE-NAME
+    app.kubernetes.io/part-of: clearml-server
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/version: 0.17.0-63
+    helm.sh/chart: clearml-server-chart-0.17.0_1
+  namespace: clearml
+spec:
+  selector:
+    app.kubernetes.io/name: webserver
+    app.kubernetes.io/instance: RELEASE-NAME
+    app.kubernetes.io/part-of: clearml-server
+    app.kubernetes.io/managed-by: Helm
+  type: NodePort
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+    nodePort: 30080
+---
+# Source: clearml-server-chart/templates/agentservices-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/name: agentservices
+    app.kubernetes.io/instance: RELEASE-NAME
+    app.kubernetes.io/part-of: clearml-server
+    app.kubernetes.io/managed-by: Helm
+    helm.sh/chart: clearml-server-chart-0.17.0_1
+  name: agentservices
+  namespace: clearml
+spec:
+  selector:
+    matchLabels:
+          app.kubernetes.io/name: agentservices
+          app.kubernetes.io/instance: RELEASE-NAME
+          app.kubernetes.io/part-of: clearml-server
+          app.kubernetes.io/managed-by: Helm
+  minReadySeconds: 20
+  progressDeadlineSeconds: 30
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+          app.kubernetes.io/name: agentservices
+          app.kubernetes.io/instance: RELEASE-NAME
+          app.kubernetes.io/part-of: clearml-server
+          app.kubernetes.io/managed-by: Helm
+          helm.sh/chart: clearml-server-chart-0.17.0_1
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+                - matchExpressions:
+                  - key: app
+                    operator: In
+                    values:
+                      - clearml
+      containers:
+      - image: allegroai/clearml-agent-services:latest
+        name: agentservices
+        securityContext:
+          privileged: true
+        volumeMounts:
+          - name: dockersock
+            mountPath: "/var/run/docker.sock"
+          - name: agent-data
+            mountPath: /root/.clearml
+        env:
+          - name: CLEARML_HOST_IP
+            value: 
+          - name: CLEARML_API_HOST
+            value: http://apiserver-service:8008
+          - name: CLEARML_WEB_HOST
+            value: 
+          - name: CLEARML_FILES_HOST
+            value: 
+          - name: CLEARML_AGENT_GIT_USER
+            value: 
+          - name: CLEARML_AGENT_GIT_PASS
+            value: 
+          - name: CLEARML_API_ACCESS_KEY
+            value: 
+          - name: CLEARML_API_SECRET_KEY
+            value: 
+          - name: CLEARML_AGENT_UPDATE_VERSION
+            value: 
+          - name: CLEARML_AGENT_DEFAULT_BASE_DOCKER
+            value: ubuntu:18.04
+          - name: AWS_ACCESS_KEY_ID
+            value: 
+          - name: AWS_SECRET_ACCESS_KEY
+            value: 
+          - name: AWS_DEFAULT_REGION
+            value: 
+          - name: AZURE_STORAGE_ACCOUNT
+            value: 
+          - name: AZURE_STORAGE_KEY
+            value: 
+          - name: GOOGLE_APPLICATION_CREDENTIALS
+            value: 
+          - name: CLEARML_WORKER_ID
+            value: clearml-services
+          - name: CLEARML_AGENT_DOCKER_HOST_MOUNT
+            value: /opt/clearml/agent:/root/.clearml
+      volumes:
+      - name: dockersock
+        hostPath:
+          path: /var/run/docker.sock
+      - name: agent-data
+        hostPath:
+          path: /opt/clearml/agent
+      restartPolicy: Always
+      nodeSelector:
+        app: clearml
+---
+# Source: clearml-server-chart/templates/apiserver-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/name: apiserver
+    app.kubernetes.io/instance: RELEASE-NAME
+    app.kubernetes.io/part-of: clearml-server
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/version: 0.17.0-63
+    helm.sh/chart: clearml-server-chart-0.17.0_1
+  name: apiserver
+  namespace: clearml
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: apiserver
+      app.kubernetes.io/instance: RELEASE-NAME
+      app.kubernetes.io/part-of: clearml-server
+      app.kubernetes.io/managed-by: Helm
+  minReadySeconds: 20
+  progressDeadlineSeconds: 30
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: apiserver
+        app.kubernetes.io/instance: RELEASE-NAME
+        app.kubernetes.io/part-of: clearml-server
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/version: 0.17.0-63
+        helm.sh/chart: clearml-server-chart-0.17.0_1
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: app
+                    operator: In
+                    values:
+                    - clearml
+      containers:
+      - image: allegroai/clearml:0.17.0-63
+        name: apiserver
+        resources:
+            limits:
+              cpu: 400m
+              memory: 150M
+            requests:
+              cpu: 200m
+              memory: 150M
+        env:
+        - name: TRAINS_ELASTIC_SERVICE_HOST
+          value: elasticsearch-service
+        - name: TRAINS_ELASTIC_SERVICE_PORT
+          value: "9200"
+        - name: TRAINS_MONGODB_SERVICE_HOST
+          value: mongo-service
+        - name: TRAINS_MONGODB_SERVICE_PORT
+          value: "27017"
+        - name: TRAINS_REDIS_SERVICE_HOST
+          value: redis
+        - name: TRAINS_REDIS_SERVICE_PORT
+          value: "6379"
+        - name: TRAINS__apiserver__pre_populate__enabled
+          value: "true"
+        - name: TRAINS__apiserver__pre_populate__zip_files
+          value: "/opt/trains/db-pre-populate"
+        - name: TRAINS__apiserver__pre_populate__artifacts_path
+          value: "/mnt/fileserver"
+        - name: TRAINS_SERVER_DEPLOYMENT_TYPE
+          value: Helm
+        - name: TRAINS_CONFIG_DIR
+          value: /opt/clearml/config
+        args:
+        - apiserver
+        volumeMounts:
+            - mountPath: /var/log/clearml
+              name: apiserver-hostpath0
+            - mountPath: /opt/clearml/config
+              name: apiserver-hostpath1
+      restartPolicy: Always
+      nodeSelector:
+        app: clearml
+      volumes:
+        - name: apiserver-hostpath0
+          persistentVolumeClaim:
+            claimName: apiserver-pv-claim0
+        - name: apiserver-hostpath1
+          persistentVolumeClaim:
+            claimName: apiserver-pv-claim1
+---
+# Source: clearml-server-chart/templates/clearml-agent-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/name: clearml-agent
+    app.kubernetes.io/instance: RELEASE-NAME
+    app.kubernetes.io/part-of: clearml-server
+    app.kubernetes.io/managed-by: Helm
+    helm.sh/chart: clearml-server-chart-0.17.0_1
+    allegro.ai/node-type: clearml-agent
+  name: clearml-agent
+  namespace: clearml
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+          app.kubernetes.io/name: clearml-agent
+          app.kubernetes.io/instance: RELEASE-NAME
+          app.kubernetes.io/part-of: clearml-server
+          app.kubernetes.io/managed-by: Helm
+  minReadySeconds: 20
+  progressDeadlineSeconds: 30
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+          app.kubernetes.io/name: clearml-agent
+          app.kubernetes.io/instance: RELEASE-NAME
+          app.kubernetes.io/part-of: clearml-server
+          app.kubernetes.io/managed-by: Helm
+          helm.sh/chart: clearml-server-chart-0.17.0_1
+          allegro.ai/node-type: clearml-agent
+      annotations:
+        checksum/config: 1cdf4a1e99bd6bdfc7ac49d4322970877d8f07782cd370343670d60de4987aac
+    spec:
+      containers:
+      - image: nvidia/cuda:10.1-cudnn7-runtime-ubuntu18.04
+        name: clearml-agent
+        securityContext:
+          privileged: true
+        resources:
+          limits:
+            nvidia.com/gpu:
+              0
+        volumeMounts:
+          
+          - name: dockersock
+            mountPath: "/var/run/docker.sock"
+          
+          - name: agent-data
+            mountPath: /root/.clearml
+          
+          - name: agent-clearml-conf-volume
+            mountPath: "/root/clearml.conf"
+            subPath: clearml.conf
+            readOnly: true
+          
+        env:
+          - name: CLEARML_API_HOST
+            value: http://54.251.64.38:30008
+          - name: CLEARML_WEB_HOST
+            value: http://54.251.64.38:30080
+          - name: CLEARML_FILES_HOST
+            value: http://54.251.64.38:30081
+          - name: CLEARML_AGENT_GIT_USER
+            value: groupgithub21
+          - name: CLEARML_AGENT_GIT_PASS
+            value: dabudabu21
+          - name: CLEARML_API_ACCESS_KEY
+            value: 
+          - name: CLEARML_API_SECRET_KEY
+            value: 
+          - name: AWS_ACCESS_KEY_ID
+            value: 
+          - name: AWS_SECRET_ACCESS_KEY
+            value: 
+          - name: AWS_DEFAULT_REGION
+            value: 
+          - name: AZURE_STORAGE_ACCOUNT
+            value: 
+          - name: AZURE_STORAGE_KEY
+            value: 
+        command:
+          - /bin/sh
+          - -c
+          - "apt-get update ;
+             apt-get install -y curl python3-pip git;
+             curl -sSL https://get.docker.com/ | sh ;
+             python3 -m pip install -U pip ;
+             python3 -m pip install clearml-agent ;
+             CLEARML_DOCKER_SKIP_GPUS_FLAG=1 CLEARML_AGENT_K8S_HOST_MOUNT=/root/.clearml:/root/.clearml clearml-agent daemon --docker ecoron/python36-sklearn --force-current-version --queue default"
+             
+      volumes:
+      
+      - name: dockersock
+        hostPath:
+          path: /var/run/docker.sock
+      
+      - name: agent-data
+        hostPath:
+          path: /root/.clearml/
+      
+      - name: agent-clearml-conf-volume
+        secret:
+          secretName: clearml-agent-conf
+          items:
+          - key: clearml.conf
+            path: clearml.conf
+      
+      restartPolicy: Always
+---
+# Source: clearml-server-chart/templates/elasticsearch-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/name: elasticsearch
+    app.kubernetes.io/instance: RELEASE-NAME
+    app.kubernetes.io/part-of: clearml-server
+    app.kubernetes.io/managed-by: Helm
+    helm.sh/chart: clearml-server-chart-0.17.0_1
+  name: elasticsearch
+  namespace: clearml
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: elasticsearch
+      app.kubernetes.io/instance: RELEASE-NAME
+      app.kubernetes.io/part-of: clearml-server
+      app.kubernetes.io/managed-by: Helm
+  minReadySeconds: 50
+  progressDeadlineSeconds: 60
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: elasticsearch
+        app.kubernetes.io/instance: RELEASE-NAME
+        app.kubernetes.io/part-of: clearml-server
+        app.kubernetes.io/managed-by: Helm
+        helm.sh/chart: clearml-server-chart-0.17.0_1
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: app
+                operator: In
+                values:
+                - clearml
+      initContainers:
+      - name: set-dir-owner
+        image: centos:7
+        command: ['sh', '-c', 'chown -R 1000:1000 /usr/share/elasticsearch/data']
+        volumeMounts:
+        - name: elasticsearch-hostpath
+          mountPath: /usr/share/elasticsearch/data
+      containers:
+      - env:
+        - name: bootstrap.memory_lock
+          value: "true"
+        - name: cluster.name
+          value: clearml
+        - name: cluster.routing.allocation.node_initial_primaries_recoveries
+          value: "500"
+        - name: cluster.routing.allocation.disk.watermark.low
+          value: 500mb
+        - name: cluster.routing.allocation.disk.watermark.high
+          value: 500mb
+        - name: cluster.routing.allocation.disk.watermark.flood_stage
+          value: 500mb
+        - name: discovery.zen.minimum_master_nodes
+          value: "1"
+        - name: discovery.type
+          value: "single-node"
+        - name: http.compression_level
+          value: "7"
+        - name: node.ingest
+          value: "true"
+        - name: node.name
+          value: clearml
+        - name: reindex.remote.whitelist
+          value: '*.*'
+        - name: xpack.monitoring.enabled
+          value: "false"
+        - name: xpack.security.enabled
+          value: "false"
+        - name: ES_JAVA_OPTS
+          value: -Xms2g -Xmx2g
+        resources:
+          requests:
+            memory: 4G
+            cpu: "600m"
+          limits:
+            memory: 4.6G
+        image: docker.elastic.co/elasticsearch/elasticsearch:7.6.2
+        name: elasticsearch
+        ports:
+        - containerPort: 9200
+        volumeMounts:
+        - mountPath: /usr/share/elasticsearch/data
+          name: elasticsearch-hostpath
+      restartPolicy: Always
+      nodeSelector:
+        app: clearml
+      volumes:
+      - name: elasticsearch-hostpath
+        persistentVolumeClaim:
+          claimName: elasticsearch-pv-claim
+---
+# Source: clearml-server-chart/templates/fileserver-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/name: fileserver
+    app.kubernetes.io/instance: RELEASE-NAME
+    app.kubernetes.io/part-of: clearml-server
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/version: 0.17.0-63
+    helm.sh/chart: clearml-server-chart-0.17.0_1
+  name: fileserver
+  namespace: clearml
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: fileserver
+      app.kubernetes.io/instance: RELEASE-NAME
+      app.kubernetes.io/part-of: clearml-server
+      app.kubernetes.io/managed-by: Helm
+  progressDeadlineSeconds: 5
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: fileserver
+        app.kubernetes.io/instance: RELEASE-NAME
+        app.kubernetes.io/part-of: clearml-server
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/version: 0.17.0-63
+        helm.sh/chart: clearml-server-chart-0.17.0_1
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: app
+                    operator: In
+                    values:
+                    - clearml
+      containers:
+      - image: allegroai/clearml:0.17.0-63
+        name: fileserver
+        resources:
+          requests:
+            memory: "30M"
+            cpu: "50m"
+          limits:
+            memory: "60M"
+            cpu: "100m"
+        args:
+        - fileserver
+        volumeMounts:
+        - mountPath: /var/log/clearml
+          name: fileserver-hostpath0
+        - mountPath: /mnt/fileserver
+          name: fileserver-hostpath1
+      restartPolicy: Always
+      nodeSelector:
+        app: clearml
+      volumes:
+      - name: fileserver-hostpath0
+        persistentVolumeClaim:
+          claimName: fileserver-pv-claim0
+      - name: fileserver-hostpath1
+        persistentVolumeClaim:
+          claimName: fileserver-pv-claim1
+---
+# Source: clearml-server-chart/templates/mongo-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/name: mongo
+    app.kubernetes.io/instance: RELEASE-NAME
+    app.kubernetes.io/part-of: clearml-server
+    app.kubernetes.io/managed-by: Helm
+    helm.sh/chart: clearml-server-chart-0.17.0_1
+  name: mongo
+  namespace: clearml
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: mongo
+      app.kubernetes.io/instance: RELEASE-NAME
+      app.kubernetes.io/part-of: clearml-server
+      app.kubernetes.io/managed-by: Helm
+  minReadySeconds: 20
+  progressDeadlineSeconds: 30
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: mongo
+        app.kubernetes.io/instance: RELEASE-NAME
+        app.kubernetes.io/part-of: clearml-server
+        app.kubernetes.io/managed-by: Helm
+        helm.sh/chart: clearml-server-chart-0.17.0_1
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: app
+                    operator: In
+                    values:
+                    - clearml
+      containers:
+      - image: mongo:3.6.5
+        name: mongo
+        args: ["--setParameter", "internalQueryExecMaxBlockingSortBytes=196100200"]
+        resources:
+          requests:
+            memory: "125M"
+            cpu: "200m"
+          limits:
+            memory: "250M"
+            cpu: "300m"
+        volumeMounts:
+        - mountPath: /data/db
+          name: mongo-hostpath0
+        - mountPath: /data/configdb
+          name: mongo-hostpath1
+      restartPolicy: Always
+      nodeSelector:
+        app: clearml
+      volumes:
+      - name: mongo-hostpath0
+        persistentVolumeClaim:
+          claimName: mongo-pv-claim0
+      - name: mongo-hostpath1
+        persistentVolumeClaim:
+          claimName: mongo-pv-claim1
+---
+# Source: clearml-server-chart/templates/redis-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/name: redis
+    app.kubernetes.io/instance: RELEASE-NAME
+    app.kubernetes.io/part-of: clearml-server
+    app.kubernetes.io/managed-by: Helm
+    helm.sh/chart: clearml-server-chart-0.17.0_1
+  name: redis
+  namespace: clearml
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: redis
+      app.kubernetes.io/instance: RELEASE-NAME
+      app.kubernetes.io/part-of: clearml-server
+      app.kubernetes.io/managed-by: Helm
+  minReadySeconds: 20
+  progressDeadlineSeconds: 30
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: redis
+        app.kubernetes.io/instance: RELEASE-NAME
+        app.kubernetes.io/part-of: clearml-server
+        app.kubernetes.io/managed-by: Helm
+        helm.sh/chart: clearml-server-chart-0.17.0_1
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: app
+                    operator: In
+                    values:
+                    - clearml
+      containers:
+      - image: redis:5.0
+        name: redis
+        resources:
+          requests:
+            memory: "100M"
+            cpu: "200m"
+          limits:
+            memory: "100M"
+            cpu: "400m"
+        volumeMounts:
+        - mountPath: /data
+          name: redis-data
+      restartPolicy: Always
+      nodeSelector:
+        app: clearml
+      volumes:
+      - name: redis-data
+        persistentVolumeClaim:
+          claimName: redis-pv-claim
+---
+# Source: clearml-server-chart/templates/webserver-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/name: webserver
+    app.kubernetes.io/instance: RELEASE-NAME
+    app.kubernetes.io/part-of: clearml-server
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/version: 0.17.0-63
+    helm.sh/chart: clearml-server-chart-0.17.0_1
+  name: webserver
+  namespace: clearml
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: webserver
+      app.kubernetes.io/instance: RELEASE-NAME
+      app.kubernetes.io/part-of: clearml-server
+      app.kubernetes.io/managed-by: Helm
+  progressDeadlineSeconds: 10
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: webserver
+        app.kubernetes.io/instance: RELEASE-NAME
+        app.kubernetes.io/part-of: clearml-server
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/version: 0.17.0-63
+        helm.sh/chart: clearml-server-chart-0.17.0_1
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: app
+                    operator: In
+                    values:
+                    - clearml
+      containers:
+      - image: allegroai/clearml:0.17.0-63
+        name: webserver
+        resources:
+          requests:
+            memory: "25M"
+            cpu: "100m"
+          limits:
+            memory: "50M"
+            cpu: "200m"
+        args:
+        - webserver
+        env:
+          - name: NGINX_APISERVER_ADDRESS
+            value: "http://apiserver-service:8008/"
+      restartPolicy: Always
+      nodeSelector:
+        app: clearml
