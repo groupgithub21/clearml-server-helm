@@ -444,15 +444,15 @@ spec:
           - name: CLEARML_HOST_IP
             value: 
           - name: CLEARML_API_HOST
-            value: http://apiserver-service:8008
+            value: http://54.251.64.38:30008
           - name: CLEARML_WEB_HOST
-            value: 
+            value: http://54.251.64.38:30080
           - name: CLEARML_FILES_HOST
-            value: 
+            value: http://54.251.64.38:30081
           - name: CLEARML_AGENT_GIT_USER
-            value: 
+            value: groupgithub21
           - name: CLEARML_AGENT_GIT_PASS
-            value: 
+            value: dabudabu21
           - name: CLEARML_API_ACCESS_KEY
             value: 
           - name: CLEARML_API_SECRET_KEY
@@ -673,7 +673,7 @@ spec:
              apt-get install -y curl python3-pip git;
              curl -sSL https://get.docker.com/ | sh ;
              python3 -m pip install -U pip ;
-             python3 -m pip install clearml-agent ;
+             python3 -m pip install clearml-agent==0.17.2 ;
              CLEARML_DOCKER_SKIP_GPUS_FLAG=1 CLEARML_AGENT_K8S_HOST_MOUNT=/root/.clearml:/root/.clearml clearml-agent daemon --docker ecoron/python36-sklearn --force-current-version --queue default"
              
       volumes:
